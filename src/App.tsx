@@ -11,6 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Users, Handshake, Sparkle, ShieldCheck, CalendarBlank, ChatCircle, CheckCircle, TrendUp } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion } from 'framer-motion'
+import logo from '@/assets/images/neuroconnect_logo_vector_smooth_preview.png'
 
 interface WaitlistEntry {
   id: string
@@ -138,37 +139,38 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-foreground">NeuroConnect</h1>
-            <Badge variant="secondary" className="hidden sm:inline-flex">Pre-Launch</Badge>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+          <div className="flex items-center">
+            <img src={logo} alt="NeuroConnect" className="h-10 sm:h-12 w-auto" />
           </div>
-          <Button onClick={scrollToWaitlist}>Join Waiting List</Button>
+          <Button onClick={scrollToWaitlist} className="shadow-md">Join Waiting List</Button>
         </div>
       </header>
 
       <main className="pt-20">
-        <section className="relative overflow-hidden bg-gradient-to-br from-muted/30 via-background to-muted/20 py-16 sm:py-24 lg:py-32">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/10 py-16 sm:py-24 lg:py-32">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.1),transparent_50%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.1),transparent_50%)]"></div>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <Badge variant="outline" className="mb-6 border-accent text-accent">Launching 2025</Badge>
+              <Badge variant="outline" className="mb-6 border-primary text-primary bg-primary/5 backdrop-blur-sm">Launching 2025</Badge>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight tracking-tight">
-                Connecting Families with Specialized Care for <span className="text-primary">Neurodivergent</span> Children
+                Connecting Families with Specialized Care for <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Neurodivergent</span> Children
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
                 Finding the right support shouldn't take months. NeuroConnect matches families of children with ASD, dyslexia, and developmental disorders to qualified professionals—including alternative treatment specialists—in minutes.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Button size="lg" onClick={scrollToWaitlist} className="text-base px-8 shadow-lg hover:shadow-xl transition-shadow">
+                <Button size="lg" onClick={scrollToWaitlist} className="text-base px-8 shadow-lg hover:shadow-xl transition-all hover:scale-105">
                   Join the Waiting List
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}>
+                <Button size="lg" variant="outline" onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="border-primary/20 hover:border-primary/40">
                   Learn More
                 </Button>
               </div>
@@ -186,12 +188,12 @@ export default function App() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="border-2 border-border hover:border-primary/50 transition-colors">
+              <Card className="border-2 border-border hover:border-primary/50 transition-all hover:shadow-lg">
                 <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-4">
-                    <TrendUp size={32} className="text-accent" weight="bold" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary mb-4">
+                    <TrendUp size={32} className="text-white" weight="bold" />
                   </div>
-                  <div className="text-4xl font-bold text-primary mb-2">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
                     1 in 36
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -200,12 +202,12 @@ export default function App() {
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-border hover:border-primary/50 transition-colors">
+              <Card className="border-2 border-border hover:border-secondary/50 transition-all hover:shadow-lg">
                 <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10 mb-4">
-                    <CalendarBlank size={32} className="text-secondary" weight="bold" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-secondary to-accent mb-4">
+                    <CalendarBlank size={32} className="text-white" weight="bold" />
                   </div>
-                  <div className="text-4xl font-bold text-secondary mb-2">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent mb-2">
                     <StatCounter end={6} suffix="+ months" />
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -214,12 +216,12 @@ export default function App() {
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-border hover:border-primary/50 transition-colors">
+              <Card className="border-2 border-border hover:border-accent/50 transition-all hover:shadow-lg">
                 <CardContent className="pt-6 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-4">
-                    <Users size={32} className="text-accent" weight="bold" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-accent to-primary mb-4">
+                    <Users size={32} className="text-white" weight="bold" />
                   </div>
-                  <div className="text-4xl font-bold text-primary mb-2">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-2">
                     <StatCounter end={73} suffix="%" />
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -241,9 +243,9 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="group hover:shadow-lg transition-shadow">
+              <Card className="group hover:shadow-xl transition-all hover:scale-105 border-primary/10">
                 <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 mb-4 group-hover:from-primary/30 group-hover:to-primary/20 transition-all">
                     <Handshake size={28} className="text-primary" weight="duotone" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Smart Professional Matching</h3>
@@ -253,9 +255,9 @@ export default function App() {
                 </CardContent>
               </Card>
 
-              <Card className="group hover:shadow-lg transition-shadow">
+              <Card className="group hover:shadow-xl transition-all hover:scale-105 border-secondary/10">
                 <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary/10 mb-4 group-hover:bg-secondary/20 transition-colors">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-secondary/20 to-secondary/10 mb-4 group-hover:from-secondary/30 group-hover:to-secondary/20 transition-all">
                     <Sparkle size={28} className="text-secondary" weight="duotone" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Alternative Treatment Options</h3>
@@ -265,9 +267,9 @@ export default function App() {
                 </CardContent>
               </Card>
 
-              <Card className="group hover:shadow-lg transition-shadow">
+              <Card className="group hover:shadow-xl transition-all hover:scale-105 border-accent/10">
                 <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent/10 mb-4 group-hover:bg-accent/20 transition-colors">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 mb-4 group-hover:from-accent/30 group-hover:to-accent/20 transition-all">
                     <ChatCircle size={28} className="text-accent" weight="duotone" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Seamless Communication</h3>
@@ -277,9 +279,9 @@ export default function App() {
                 </CardContent>
               </Card>
 
-              <Card className="group hover:shadow-lg transition-shadow">
+              <Card className="group hover:shadow-xl transition-all hover:scale-105 border-primary/10">
                 <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 mb-4 group-hover:from-primary/30 group-hover:to-primary/20 transition-all">
                     <ShieldCheck size={28} className="text-primary" weight="duotone" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Privacy & Security</h3>
@@ -289,9 +291,9 @@ export default function App() {
                 </CardContent>
               </Card>
 
-              <Card className="group hover:shadow-lg transition-shadow">
+              <Card className="group hover:shadow-xl transition-all hover:scale-105 border-secondary/10">
                 <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary/10 mb-4 group-hover:bg-secondary/20 transition-colors">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-secondary/20 to-secondary/10 mb-4 group-hover:from-secondary/30 group-hover:to-secondary/20 transition-all">
                     <Users size={28} className="text-secondary" weight="duotone" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Community Support</h3>
@@ -301,9 +303,9 @@ export default function App() {
                 </CardContent>
               </Card>
 
-              <Card className="group hover:shadow-lg transition-shadow">
+              <Card className="group hover:shadow-xl transition-all hover:scale-105 border-accent/10">
                 <CardContent className="pt-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent/10 mb-4 group-hover:bg-accent/20 transition-colors">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 mb-4 group-hover:from-accent/30 group-hover:to-accent/20 transition-all">
                     <CalendarBlank size={28} className="text-accent" weight="duotone" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-foreground">Faster Access to Care</h3>
@@ -316,19 +318,21 @@ export default function App() {
           </div>
         </section>
 
-        <section className="py-16 sm:py-24 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section className="py-16 sm:py-24 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.15),transparent_50%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.15),transparent_50%)]"></div>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Built for the Neurodivergent Community</h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
               NeuroConnect isn't just another healthcare app. It's a platform designed specifically for families navigating autism, dyslexia, ADHD, and other developmental differences. We understand that one size doesn't fit all, which is why we emphasize personalized matching and celebrate both traditional and alternative treatment approaches.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-8">
-              <Badge variant="secondary" className="text-sm px-4 py-2">Speech Therapy</Badge>
-              <Badge variant="secondary" className="text-sm px-4 py-2">Sensory Integration</Badge>
-              <Badge variant="secondary" className="text-sm px-4 py-2">Behavioral Support</Badge>
-              <Badge variant="secondary" className="text-sm px-4 py-2">Yoga & Mindfulness</Badge>
-              <Badge variant="secondary" className="text-sm px-4 py-2">Occupational Therapy</Badge>
-              <Badge variant="secondary" className="text-sm px-4 py-2">Acupuncture</Badge>
+              <Badge variant="secondary" className="text-sm px-4 py-2 bg-primary/10 hover:bg-primary/20 border-primary/20">Speech Therapy</Badge>
+              <Badge variant="secondary" className="text-sm px-4 py-2 bg-secondary/10 hover:bg-secondary/20 border-secondary/20">Sensory Integration</Badge>
+              <Badge variant="secondary" className="text-sm px-4 py-2 bg-accent/10 hover:bg-accent/20 border-accent/20">Behavioral Support</Badge>
+              <Badge variant="secondary" className="text-sm px-4 py-2 bg-primary/10 hover:bg-primary/20 border-primary/20">Yoga & Mindfulness</Badge>
+              <Badge variant="secondary" className="text-sm px-4 py-2 bg-secondary/10 hover:bg-secondary/20 border-secondary/20">Occupational Therapy</Badge>
+              <Badge variant="secondary" className="text-sm px-4 py-2 bg-accent/10 hover:bg-accent/20 border-accent/20">Acupuncture</Badge>
             </div>
           </div>
         </section>
@@ -342,7 +346,7 @@ export default function App() {
               </p>
             </div>
 
-            <Card className="border-2 border-primary/20">
+            <Card className="border-2 border-primary/30 shadow-xl bg-gradient-to-br from-card to-primary/5">
               <CardContent className="pt-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
@@ -353,7 +357,7 @@ export default function App() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Enter your name"
-                      className="mt-2 h-12"
+                      className="mt-2 h-12 border-primary/20 focus:border-primary"
                       disabled={isSubmitting}
                     />
                     {errors.name && <p className="text-destructive text-sm mt-1">{errors.name}</p>}
@@ -367,7 +371,7 @@ export default function App() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your.email@example.com"
-                      className="mt-2 h-12"
+                      className="mt-2 h-12 border-primary/20 focus:border-primary"
                       disabled={isSubmitting}
                     />
                     {errors.email && <p className="text-destructive text-sm mt-1">{errors.email}</p>}
@@ -376,7 +380,7 @@ export default function App() {
                   <div>
                     <Label htmlFor="role" className="text-base">I am a...</Label>
                     <Select value={role} onValueChange={setRole} disabled={isSubmitting}>
-                      <SelectTrigger className="mt-2 h-12" id="role">
+                      <SelectTrigger className="mt-2 h-12 border-primary/20 focus:border-primary" id="role">
                         <SelectValue placeholder="Select your role" />
                       </SelectTrigger>
                       <SelectContent>
@@ -393,7 +397,7 @@ export default function App() {
                   <Button 
                     type="submit" 
                     size="lg" 
-                    className="w-full h-12 text-base"
+                    className="w-full h-12 text-base shadow-lg hover:shadow-xl transition-all hover:scale-105"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
@@ -425,7 +429,7 @@ export default function App() {
             </div>
 
             <Accordion type="single" collapsible className="space-y-4">
-              <AccordionItem value="item-1" className="border border-border rounded-lg px-6">
+              <AccordionItem value="item-1" className="border border-border rounded-lg px-6 hover:border-primary/50 transition-colors">
                 <AccordionTrigger className="text-lg font-semibold hover:text-primary">
                   When will NeuroConnect launch?
                 </AccordionTrigger>
@@ -434,8 +438,8 @@ export default function App() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-2" className="border border-border rounded-lg px-6">
-                <AccordionTrigger className="text-lg font-semibold hover:text-primary">
+              <AccordionItem value="item-2" className="border border-border rounded-lg px-6 hover:border-secondary/50 transition-colors">
+                <AccordionTrigger className="text-lg font-semibold hover:text-secondary">
                   Who can use NeuroConnect?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
@@ -443,8 +447,8 @@ export default function App() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-3" className="border border-border rounded-lg px-6">
-                <AccordionTrigger className="text-lg font-semibold hover:text-primary">
+              <AccordionItem value="item-3" className="border border-border rounded-lg px-6 hover:border-accent/50 transition-colors">
+                <AccordionTrigger className="text-lg font-semibold hover:text-accent">
                   What types of professionals will be available?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
@@ -452,7 +456,7 @@ export default function App() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-4" className="border border-border rounded-lg px-6">
+              <AccordionItem value="item-4" className="border border-border rounded-lg px-6 hover:border-primary/50 transition-colors">
                 <AccordionTrigger className="text-lg font-semibold hover:text-primary">
                   How much will NeuroConnect cost?
                 </AccordionTrigger>
@@ -461,8 +465,8 @@ export default function App() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-5" className="border border-border rounded-lg px-6">
-                <AccordionTrigger className="text-lg font-semibold hover:text-primary">
+              <AccordionItem value="item-5" className="border border-border rounded-lg px-6 hover:border-secondary/50 transition-colors">
+                <AccordionTrigger className="text-lg font-semibold hover:text-secondary">
                   Is my family's information secure?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
@@ -470,8 +474,8 @@ export default function App() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-6" className="border border-border rounded-lg px-6">
-                <AccordionTrigger className="text-lg font-semibold hover:text-primary">
+              <AccordionItem value="item-6" className="border border-border rounded-lg px-6 hover:border-accent/50 transition-colors">
+                <AccordionTrigger className="text-lg font-semibold hover:text-accent">
                   Will NeuroConnect be available in my area?
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground leading-relaxed">
@@ -479,7 +483,7 @@ export default function App() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-7" className="border border-border rounded-lg px-6">
+              <AccordionItem value="item-7" className="border border-border rounded-lg px-6 hover:border-primary/50 transition-colors">
                 <AccordionTrigger className="text-lg font-semibold hover:text-primary">
                   How is NeuroConnect different from other healthcare platforms?
                 </AccordionTrigger>
@@ -491,8 +495,12 @@ export default function App() {
           </div>
         </section>
 
-        <section className="py-16 sm:py-24 bg-gradient-to-br from-primary via-secondary to-accent text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section className="py-16 sm:py-24 bg-gradient-to-br from-primary via-secondary to-accent text-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          </div>
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">Help Us Build Something Better</h2>
             <p className="text-lg mb-8 leading-relaxed opacity-95">
               NeuroConnect is being built with input from families, professionals, and advocates in the neurodivergent community. Your early support helps us create a platform that truly serves your needs.
@@ -501,7 +509,7 @@ export default function App() {
               size="lg" 
               variant="secondary"
               onClick={scrollToWaitlist}
-              className="text-base px-8 shadow-lg hover:shadow-xl transition-shadow"
+              className="text-base px-8 shadow-lg hover:shadow-xl transition-all hover:scale-105 bg-white text-primary hover:bg-white/90"
             >
               Join the Waiting List Today
             </Button>
@@ -509,11 +517,11 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="bg-card border-t border-border py-12">
+      <footer className="bg-gradient-to-br from-muted/50 to-primary/5 border-t border-border py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="font-bold text-lg mb-3 text-foreground">NeuroConnect</h3>
+              <img src={logo} alt="NeuroConnect" className="h-10 w-auto mb-3" />
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Empowering neurodivergent families through accessible, specialized care connections.
               </p>
@@ -532,13 +540,13 @@ export default function App() {
               <p className="text-sm text-muted-foreground">
                 Questions? We'd love to hear from you.
               </p>
-              <p className="text-sm text-primary mt-2">hello@neuroconnect.app</p>
+              <p className="text-sm text-primary mt-2 font-medium">hello@neuroconnect.app</p>
             </div>
           </div>
           <Separator className="mb-8" />
           <div className="text-center text-sm text-muted-foreground">
             <p>© 2025 NeuroConnect. All rights reserved.</p>
-            <p className="mt-2">Built with ❤️ for the neurodivergent community</p>
+            <p className="mt-2">Built with <span className="text-primary">❤️</span> for the neurodivergent community</p>
           </div>
         </div>
       </footer>
