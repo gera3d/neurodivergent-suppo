@@ -7,6 +7,15 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 :root {
   --background: oklch(0.99 0.005 280);
   --foreground: oklch(0.15 0.02 280);
@@ -62,6 +71,8 @@
 
   --font-heading: 'Fraunces', serif;
   --font-body: 'Inter', sans-serif;
+
+  --animate-shimmer: shimmer 3s linear infinite;
 }
 
 body {
