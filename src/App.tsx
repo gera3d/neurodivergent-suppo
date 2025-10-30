@@ -19,6 +19,9 @@ import { SmoothAccordion } from '@/components/animated/smooth-accordion'
 import { GradientText } from '@/components/animated/gradient-text'
 import { ScrollIndicator } from '@/components/animated/scroll-indicator'
 import { AnimatedGridBackground, FloatingOrbs } from '@/components/animated/animated-background'
+import { LiquidButton } from '@/components/animated/liquid-button'
+import { ShimmerButton } from '@/components/animated/shimmer-button'
+import { ParallaxSection } from '@/components/animated/parallax-section'
 
 interface WaitlistEntry {
   id: string
@@ -132,13 +135,13 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
-            <MagneticButton 
+            <LiquidButton 
               onClick={scrollToWaitlist} 
               className="shadow-lg hover:shadow-xl transition-all group"
             >
               Join Waiting List
               <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </MagneticButton>
+            </LiquidButton>
           </motion.div>
         </div>
       </motion.header>
@@ -195,14 +198,14 @@ export default function App() {
                 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
-                <MagneticButton 
+                <LiquidButton 
                   size="lg" 
                   onClick={scrollToWaitlist} 
                   className="text-base px-10 py-6 shadow-2xl hover:shadow-primary/25 transition-all group relative overflow-hidden"
                 >
                   <span className="relative z-10">Join the Waiting List</span>
                   <ArrowRight size={20} className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" />
-                </MagneticButton>
+                </LiquidButton>
                 <MagneticButton 
                   size="lg" 
                   variant="outline" 
@@ -245,125 +248,129 @@ export default function App() {
         <section className="py-24 sm:py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{
-                duration: 0.8,
-                ease: [0.21, 0.47, 0.32, 0.98]
-              }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">The Challenge Families Face</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Real data shows the urgent need for better access to specialized care
-              </p>
-            </motion.div>
-            
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-3 gap-8"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
-            >
-              <StatCard
-                icon={TrendUp}
-                stat="1 in 36"
-                label="Children are diagnosed with autism spectrum disorder (ASD) in the U.S., according to the CDC (2023)"
-                gradient="from-primary to-secondary"
-                index={0}
-              />
-              <StatCard
-                icon={CalendarBlank}
-                countTo={6}
-                suffix="+ months"
-                label="Average wait time for developmental pediatrician appointments (Autism Speaks, 2023)"
-                gradient="from-secondary to-accent"
-                index={1}
-              />
-              <StatCard
-                icon={Users}
-                countTo={73}
-                suffix="%"
-                label="Of parents report difficulty finding appropriate services for their neurodivergent child (NCLD, 2022)"
-                gradient="from-accent to-primary"
-                index={2}
-              />
-            </motion.div>
+            <ParallaxSection offset={30}>
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0.21, 0.47, 0.32, 0.98]
+                }}
+                className="text-center mb-16"
+              >
+                <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">The Challenge Families Face</h2>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                  Real data shows the urgent need for better access to specialized care
+                </p>
+              </motion.div>
+              
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+              >
+                <StatCard
+                  icon={TrendUp}
+                  stat="1 in 36"
+                  label="Children are diagnosed with autism spectrum disorder (ASD) in the U.S., according to the CDC (2023)"
+                  gradient="from-primary to-secondary"
+                  index={0}
+                />
+                <StatCard
+                  icon={CalendarBlank}
+                  countTo={6}
+                  suffix="+ months"
+                  label="Average wait time for developmental pediatrician appointments (Autism Speaks, 2023)"
+                  gradient="from-secondary to-accent"
+                  index={1}
+                />
+                <StatCard
+                  icon={Users}
+                  countTo={73}
+                  suffix="%"
+                  label="Of parents report difficulty finding appropriate services for their neurodivergent child (NCLD, 2022)"
+                  gradient="from-accent to-primary"
+                  index={2}
+                />
+              </motion.div>
+            </ParallaxSection>
           </div>
         </section>
 
         <section id="features" className="py-24 sm:py-32 relative">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#8b5cf610_0%,transparent_65%)]" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{
-                duration: 0.8,
-                ease: [0.21, 0.47, 0.32, 0.98]
-              }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">How NeuroConnect Helps</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                A comprehensive platform designed specifically for neurodivergent families
-              </p>
-            </motion.div>
+            <ParallaxSection offset={40}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0.21, 0.47, 0.32, 0.98]
+                }}
+                className="text-center mb-16"
+              >
+                <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">How NeuroConnect Helps</h2>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                  A comprehensive platform designed specifically for neurodivergent families
+                </p>
+              </motion.div>
 
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
-            >
-              <FeatureCard
-                icon={Handshake}
-                title="Smart Professional Matching"
-                description="Our algorithm connects you with specialists based on your child's unique needs, location, and preferred treatment approaches—conventional or alternative."
-                gradient="from-primary to-secondary"
-                index={0}
-              />
-              <FeatureCard
-                icon={Sparkle}
-                title="Alternative Treatment Options"
-                description="Access to yoga therapists, acupuncturists, sensory integration specialists, and other holistic practitioners alongside traditional therapies."
-                gradient="from-secondary to-accent"
-                index={1}
-              />
-              <FeatureCard
-                icon={ChatCircle}
-                title="Seamless Communication"
-                description="Secure messaging, video consultations, and appointment scheduling all in one place. No more juggling multiple platforms."
-                gradient="from-accent to-primary"
-                index={2}
-              />
-              <FeatureCard
-                icon={ShieldCheck}
-                title="Privacy & Security"
-                description="HIPAA-compliant platform ensuring your family's sensitive information is protected with enterprise-grade security."
-                gradient="from-primary to-secondary"
-                index={3}
-              />
-              <FeatureCard
-                icon={Users}
-                title="Community Support"
-                description="Connect with other families, share experiences, and access expert-curated resources on coping strategies and skill development."
-                gradient="from-secondary to-accent"
-                index={4}
-              />
-              <FeatureCard
-                icon={CalendarBlank}
-                title="Faster Access to Care"
-                description="Reduce months-long wait times to days. Find available professionals quickly and book consultations that fit your schedule."
-                gradient="from-accent to-primary"
-                index={5}
-              />
-            </motion.div>
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+              >
+                <FeatureCard
+                  icon={Handshake}
+                  title="Smart Professional Matching"
+                  description="Our algorithm connects you with specialists based on your child's unique needs, location, and preferred treatment approaches—conventional or alternative."
+                  gradient="from-primary to-secondary"
+                  index={0}
+                />
+                <FeatureCard
+                  icon={Sparkle}
+                  title="Alternative Treatment Options"
+                  description="Access to yoga therapists, acupuncturists, sensory integration specialists, and other holistic practitioners alongside traditional therapies."
+                  gradient="from-secondary to-accent"
+                  index={1}
+                />
+                <FeatureCard
+                  icon={ChatCircle}
+                  title="Seamless Communication"
+                  description="Secure messaging, video consultations, and appointment scheduling all in one place. No more juggling multiple platforms."
+                  gradient="from-accent to-primary"
+                  index={2}
+                />
+                <FeatureCard
+                  icon={ShieldCheck}
+                  title="Privacy & Security"
+                  description="HIPAA-compliant platform ensuring your family's sensitive information is protected with enterprise-grade security."
+                  gradient="from-primary to-secondary"
+                  index={3}
+                />
+                <FeatureCard
+                  icon={Users}
+                  title="Community Support"
+                  description="Connect with other families, share experiences, and access expert-curated resources on coping strategies and skill development."
+                  gradient="from-secondary to-accent"
+                  index={4}
+                />
+                <FeatureCard
+                  icon={CalendarBlank}
+                  title="Faster Access to Care"
+                  description="Reduce months-long wait times to days. Find available professionals quickly and book consultations that fit your schedule."
+                  gradient="from-accent to-primary"
+                  index={5}
+                />
+              </motion.div>
+            </ParallaxSection>
           </div>
         </section>
 
@@ -637,15 +644,13 @@ export default function App() {
               <p className="text-xl mb-10 leading-relaxed text-white/90 max-w-3xl mx-auto">
                 NeuroConnect is being built with input from families, professionals, and advocates in the neurodivergent community. Your early support helps us create a platform that truly serves your needs.
               </p>
-              <MagneticButton 
-                size="lg" 
-                variant="secondary"
+              <ShimmerButton 
                 onClick={scrollToWaitlist}
-                className="text-base px-12 py-7 shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] transition-all bg-white text-primary hover:bg-white/95 font-semibold"
+                className="text-base px-12 py-7 shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] transition-all bg-white text-primary hover:bg-white/95 font-semibold rounded-lg inline-flex items-center gap-2"
               >
                 Join the Waiting List Today
-                <ArrowRight size={20} className="ml-2" />
-              </MagneticButton>
+                <ArrowRight size={20} />
+              </ShimmerButton>
             </motion.div>
           </div>
         </section>
