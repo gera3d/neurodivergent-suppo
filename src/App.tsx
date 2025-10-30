@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Users, Handshake, Sparkle, ShieldCheck, CalendarBlank, ChatCircle, CheckCircle, TrendUp, ArrowRight, Star } from '@phosphor-icons/react'
 import { toast } from 'sonner'
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion'
 import logo from '@/assets/images/neuroconnect_logo_vector_smooth_preview.png'
 
 interface WaitlistEntry {
@@ -25,8 +25,31 @@ function AnimatedGridBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8b5cf620_1px,transparent_1px),linear-gradient(to_bottom,#8b5cf620_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[128px] animate-pulse" />
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[128px] animate-pulse" style={{ animationDelay: '1s' }} />
+      <motion.div 
+        className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[128px]"
+        animate={{
+          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div 
+        className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[128px]"
+        animate={{
+          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 8,
+          delay: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
     </div>
   )
 }
@@ -35,27 +58,25 @@ function FloatingOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-3xl"
+        className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl"
         animate={{
-          x: [0, 100, 0],
-          y: [0, 50, 0],
-          scale: [1, 1.2, 1],
+          x: [0, 50, 0],
+          y: [0, 30, 0],
         }}
         transition={{
-          duration: 20,
+          duration: 15,
           repeat: Infinity,
           ease: "easeInOut"
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-secondary/30 to-primary/30 rounded-full blur-3xl"
+        className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl"
         animate={{
-          x: [0, -100, 0],
-          y: [0, -50, 0],
-          scale: [1, 1.3, 1],
+          x: [0, -50, 0],
+          y: [0, -30, 0],
         }}
         transition={{
-          duration: 25,
+          duration: 18,
           repeat: Infinity,
           ease: "easeInOut"
         }}
@@ -67,24 +88,34 @@ function FloatingOrbs() {
 function StatCounter({ end, duration = 2000, suffix = '' }: { end: number; duration?: number; suffix?: string }) {
   const [count, setCount] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, amount: 0.5 })
 
   useEffect(() => {
     if (!isInView) return
 
-    const startTime = Date.now()
-    const timer = setInterval(() => {
-      const elapsed = Date.now() - startTime
+    let startTime: number | null = null
+    let animationFrame: number
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime
+      const elapsed = currentTime - startTime
       const progress = Math.min(elapsed / duration, 1)
-      const easeOut = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.floor(easeOut * end))
       
-      if (progress === 1) {
-        clearInterval(timer)
+      const easeOutCubic = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.floor(easeOutCubic * end))
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate)
       }
-    }, 16)
+    }
+
+    animationFrame = requestAnimationFrame(animate)
     
-    return () => clearInterval(timer)
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame)
+      }
+    }
   }, [end, duration, isInView])
 
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>
@@ -169,12 +200,41 @@ export default function App() {
   }
 
   const { scrollY } = useScroll()
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0])
-  const heroScale = useTransform(scrollY, [0, 300], [1, 0.95])
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0])
+  const heroY = useTransform(scrollY, [0, 400], [0, -50])
+
+  const fadeInUpVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: (custom: number = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: custom * 0.1,
+        ease: [0.25, 0.4, 0.25, 1]
+      }
+    })
+  }
+
+  const staggerContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl border-b border-border/50">
+      <motion.header 
+        className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl border-b border-border/50"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center">
             <img src={logo} alt="NeuroConnect" className="h-10 sm:h-12 w-auto" />
@@ -184,7 +244,7 @@ export default function App() {
             <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
-      </header>
+      </motion.header>
 
       <main className="pt-16">
         <section className="relative overflow-hidden min-h-[90vh] flex items-center">
@@ -192,14 +252,15 @@ export default function App() {
           <FloatingOrbs />
           
           <motion.div 
-            style={{ opacity: heroOpacity, scale: heroScale }}
+            style={{ opacity: heroOpacity, y: heroY }}
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20"
           >
             <div className="text-center max-w-5xl mx-auto">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUpVariants}
+                custom={0}
               >
                 <Badge variant="outline" className="mb-6 border-primary/50 text-primary bg-primary/10 backdrop-blur-sm px-4 py-1.5 text-sm font-medium">
                   <Star size={14} className="mr-1.5 inline" weight="fill" />
@@ -208,9 +269,10 @@ export default function App() {
               </motion.div>
 
               <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUpVariants}
+                custom={1}
                 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-8 leading-[1.1] tracking-tight"
               >
                 Connecting Families with{' '}
@@ -220,51 +282,53 @@ export default function App() {
                   </span>
                   <motion.div 
                     className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 blur-xl -z-10"
-                    animate={{ opacity: [0.5, 0.8, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity }}
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   />
                 </span>
                 {' '}for Neurodivergent Children
               </motion.h1>
 
               <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUpVariants}
+                custom={2}
                 className="text-xl sm:text-2xl text-muted-foreground mb-10 leading-relaxed max-w-3xl mx-auto font-light"
               >
                 Finding the right support shouldn't take months. NeuroConnect matches families of children with ASD, dyslexia, and developmental disorders to qualified professionals—including alternative treatment specialists—in minutes.
               </motion.p>
 
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUpVariants}
+                custom={3}
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
                 <Button 
                   size="lg" 
                   onClick={scrollToWaitlist} 
-                  className="text-base px-10 py-6 shadow-2xl hover:shadow-primary/25 transition-all hover:scale-105 group relative overflow-hidden"
+                  className="text-base px-10 py-6 shadow-2xl hover:shadow-primary/25 transition-all group relative overflow-hidden"
                 >
                   <span className="relative z-10">Join the Waiting List</span>
                   <ArrowRight size={20} className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite]" />
                 </Button>
                 <Button 
                   size="lg" 
                   variant="outline" 
                   onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} 
-                  className="border-2 px-10 py-6 backdrop-blur-sm hover:bg-primary/5"
+                  className="border-2 px-10 py-6 backdrop-blur-sm hover:bg-primary/5 transition-colors"
                 >
                   Learn More
                 </Button>
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUpVariants}
+                custom={4}
                 className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-muted-foreground"
               >
                 <div className="flex items-center gap-2">
@@ -285,13 +349,13 @@ export default function App() {
 
           <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
             <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="w-6 h-10 border-2 border-primary/50 rounded-full flex items-start justify-center p-2"
             >
               <motion.div 
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 className="w-1.5 h-1.5 bg-primary rounded-full"
               />
             </motion.div>
@@ -302,10 +366,10 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUpVariants}
               className="text-center mb-16"
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">The Challenge Families Face</h2>
@@ -314,43 +378,47 @@ export default function App() {
               </p>
             </motion.div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainerVariants}
+            >
               {[
                 { 
                   icon: TrendUp, 
                   stat: "1 in 36", 
                   label: "Children are diagnosed with autism spectrum disorder (ASD) in the U.S., according to the CDC (2023)",
                   gradient: "from-primary to-secondary",
-                  delay: 0
                 },
                 { 
                   icon: CalendarBlank, 
                   stat: <><StatCounter end={6} suffix="+ months" /></>, 
                   label: "Average wait time for developmental pediatrician appointments (Autism Speaks, 2023)",
                   gradient: "from-secondary to-accent",
-                  delay: 0.2
                 },
                 { 
                   icon: Users, 
                   stat: <><StatCounter end={73} suffix="%" /></>, 
                   label: "Of parents report difficulty finding appropriate services for their neurodivergent child (NCLD, 2022)",
                   gradient: "from-accent to-primary",
-                  delay: 0.4
                 }
               ].map((item, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: item.delay }}
+                  variants={fadeInUpVariants}
                 >
-                  <Card className="relative group border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 overflow-hidden h-full">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                  <Card className="relative group border-2 border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 overflow-hidden h-full will-change-transform">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
                     <CardContent className="pt-8 text-center relative">
-                      <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${item.gradient} mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <motion.div 
+                        className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${item.gradient} mb-6 shadow-lg`}
+                        whileHover={{ scale: 1.05, rotate: 2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                      >
                         <item.icon size={36} className="text-white" weight="bold" />
-                      </div>
+                      </motion.div>
                       <div className={`text-5xl font-bold bg-gradient-to-r ${item.gradient} bg-clip-text text-transparent mb-4`}>
                         {item.stat}
                       </div>
@@ -361,7 +429,7 @@ export default function App() {
                   </Card>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -369,10 +437,10 @@ export default function App() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#8b5cf610_0%,transparent_65%)]" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUpVariants}
               className="text-center mb-16"
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">How NeuroConnect Helps</h2>
@@ -381,65 +449,66 @@ export default function App() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainerVariants}
+            >
               {[
                 {
                   icon: Handshake,
                   title: "Smart Professional Matching",
                   description: "Our algorithm connects you with specialists based on your child's unique needs, location, and preferred treatment approaches—conventional or alternative.",
                   color: "primary",
-                  delay: 0
                 },
                 {
                   icon: Sparkle,
                   title: "Alternative Treatment Options",
                   description: "Access to yoga therapists, acupuncturists, sensory integration specialists, and other holistic practitioners alongside traditional therapies.",
                   color: "secondary",
-                  delay: 0.1
                 },
                 {
                   icon: ChatCircle,
                   title: "Seamless Communication",
                   description: "Secure messaging, video consultations, and appointment scheduling all in one place. No more juggling multiple platforms.",
                   color: "accent",
-                  delay: 0.2
                 },
                 {
                   icon: ShieldCheck,
                   title: "Privacy & Security",
                   description: "HIPAA-compliant platform ensuring your family's sensitive information is protected with enterprise-grade security.",
                   color: "primary",
-                  delay: 0.3
                 },
                 {
                   icon: Users,
                   title: "Community Support",
                   description: "Connect with other families, share experiences, and access expert-curated resources on coping strategies and skill development.",
                   color: "secondary",
-                  delay: 0.4
                 },
                 {
                   icon: CalendarBlank,
                   title: "Faster Access to Care",
                   description: "Reduce months-long wait times to days. Find available professionals quickly and book consultations that fit your schedule.",
                   color: "accent",
-                  delay: 0.5
                 }
               ].map((feature, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: feature.delay }}
+                  variants={fadeInUpVariants}
                 >
-                  <Card className="group relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-300 h-full hover:shadow-2xl hover:shadow-primary/10">
-                    <div className={`absolute top-0 right-0 w-32 h-32 bg-${feature.color}/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-500`} />
+                  <Card className="group relative overflow-hidden border-border/50 hover:border-primary/50 transition-all duration-500 h-full hover:shadow-2xl hover:shadow-primary/10 will-change-transform">
+                    <div className={`absolute top-0 right-0 w-32 h-32 bg-${feature.color}/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
                     <CardContent className="pt-8 relative">
-                      <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-${feature.color}/20 to-${feature.color}/10 mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                      <motion.div 
+                        className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-${feature.color}/20 to-${feature.color}/10 mb-5`}
+                        whileHover={{ scale: 1.05, rotate: 3 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                      >
                         <feature.icon size={32} className={`text-${feature.color}`} weight="duotone" />
-                      </div>
-                      <h3 className="text-2xl font-semibold mb-4 text-foreground group-hover:text-primary transition-colors">{feature.title}</h3>
+                      </motion.div>
+                      <h3 className="text-2xl font-semibold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
                       <p className="text-muted-foreground leading-relaxed">
                         {feature.description}
                       </p>
@@ -447,27 +516,41 @@ export default function App() {
                   </Card>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section className="py-24 sm:py-32 relative overflow-hidden">
           <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[128px]" />
+            <motion.div 
+              className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]"
+              animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div 
+              className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[128px]"
+              animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
+              transition={{ duration: 8, delay: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
           </div>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUpVariants}
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-8">Built for the Neurodivergent Community</h2>
               <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
                 NeuroConnect isn't just another healthcare app. It's a platform designed specifically for families navigating autism, dyslexia, ADHD, and other developmental differences. We understand that one size doesn't fit all, which is why we emphasize personalized matching and celebrate both traditional and alternative treatment approaches.
               </p>
-              <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <motion.div 
+                className="flex flex-wrap justify-center gap-3 mb-8"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={staggerContainerVariants}
+              >
                 {[
                   { label: "Speech Therapy", gradient: "from-primary to-primary" },
                   { label: "Sensory Integration", gradient: "from-secondary to-secondary" },
@@ -478,20 +561,17 @@ export default function App() {
                 ].map((badge, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    variants={fadeInUpVariants}
                   >
                     <Badge 
                       variant="secondary" 
-                      className={`text-sm px-5 py-2.5 bg-gradient-to-r ${badge.gradient} text-white border-0 hover:scale-110 transition-transform cursor-default shadow-lg`}
+                      className={`text-sm px-5 py-2.5 bg-gradient-to-r ${badge.gradient} text-white border-0 hover:scale-105 transition-transform cursor-default shadow-lg`}
                     >
                       {badge.label}
                     </Badge>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </section>
@@ -500,10 +580,10 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-background via-accent/5 to-background" />
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUpVariants}
               className="text-center mb-12"
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">Join the Waiting List</h2>
@@ -513,10 +593,11 @@ export default function App() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUpVariants}
+              custom={1}
             >
               <Card className="relative border-2 border-primary/20 shadow-2xl overflow-hidden backdrop-blur-sm">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
@@ -531,7 +612,7 @@ export default function App() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Enter your name"
-                        className="mt-2.5 h-14 text-base border-2 border-border/50 focus:border-primary bg-background/50 backdrop-blur-sm"
+                        className="mt-2.5 h-14 text-base border-2 border-border/50 focus:border-primary bg-background/50 backdrop-blur-sm transition-colors duration-300"
                         disabled={isSubmitting}
                       />
                       {errors.name && <p className="text-destructive text-sm mt-2 flex items-center gap-1"><span>⚠</span>{errors.name}</p>}
@@ -545,7 +626,7 @@ export default function App() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your.email@example.com"
-                        className="mt-2.5 h-14 text-base border-2 border-border/50 focus:border-primary bg-background/50 backdrop-blur-sm"
+                        className="mt-2.5 h-14 text-base border-2 border-border/50 focus:border-primary bg-background/50 backdrop-blur-sm transition-colors duration-300"
                         disabled={isSubmitting}
                       />
                       {errors.email && <p className="text-destructive text-sm mt-2 flex items-center gap-1"><span>⚠</span>{errors.email}</p>}
@@ -554,7 +635,7 @@ export default function App() {
                     <div>
                       <Label htmlFor="role" className="text-base font-medium">I am a...</Label>
                       <Select value={role} onValueChange={setRole} disabled={isSubmitting}>
-                        <SelectTrigger className="mt-2.5 h-14 text-base border-2 border-border/50 focus:border-primary bg-background/50 backdrop-blur-sm" id="role">
+                        <SelectTrigger className="mt-2.5 h-14 text-base border-2 border-border/50 focus:border-primary bg-background/50 backdrop-blur-sm transition-colors duration-300" id="role">
                           <SelectValue placeholder="Select your role" />
                         </SelectTrigger>
                         <SelectContent>
@@ -571,23 +652,36 @@ export default function App() {
                     <Button 
                       type="submit" 
                       size="lg" 
-                      className="w-full h-14 text-base shadow-xl hover:shadow-2xl transition-all hover:scale-[1.02] relative overflow-hidden group"
+                      className="w-full h-14 text-base shadow-xl hover:shadow-2xl transition-all group relative overflow-hidden"
                       disabled={isSubmitting}
                     >
                       <span className="relative z-10 flex items-center justify-center">
-                        {isSubmitting ? (
-                          <>
-                            <span className="animate-spin mr-2">⏳</span>
-                            Joining...
-                          </>
-                        ) : (
-                          <>
-                            <CheckCircle size={22} className="mr-2" weight="bold" />
-                            Join Waiting List
-                          </>
-                        )}
+                        <AnimatePresence mode="wait">
+                          {isSubmitting ? (
+                            <motion.span
+                              key="submitting"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              className="flex items-center"
+                            >
+                              <span className="animate-spin mr-2">⏳</span>
+                              Joining...
+                            </motion.span>
+                          ) : (
+                            <motion.span
+                              key="submit"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              className="flex items-center"
+                            >
+                              <CheckCircle size={22} className="mr-2" weight="bold" />
+                              Join Waiting List
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_100%] group-hover:animate-[shimmer_2s_linear_infinite]" />
                     </Button>
 
                     <p className="text-sm text-muted-foreground text-center">
@@ -603,20 +697,20 @@ export default function App() {
         <section className="py-24 sm:py-32">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUpVariants}
               className="text-center mb-16"
             >
               <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">Frequently Asked Questions</h2>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainerVariants}
             >
               <Accordion type="single" collapsible className="space-y-4">
                 {[
@@ -649,18 +743,19 @@ export default function App() {
                     answer: "Unlike general healthcare platforms, NeuroConnect is exclusively focused on the neurodivergent community. We understand the unique challenges families face, celebrate both traditional and alternative treatment approaches, emphasize personalized matching, and provide community support features designed specifically for this population."
                   }
                 ].map((faq, index) => (
-                  <AccordionItem 
-                    key={index} 
-                    value={`item-${index}`} 
-                    className="group border-2 border-border/50 rounded-2xl px-8 hover:border-primary/50 transition-all duration-300 data-[state=open]:border-primary/50 data-[state=open]:bg-primary/5 backdrop-blur-sm"
-                  >
-                    <AccordionTrigger className="text-lg font-semibold hover:text-primary py-6 hover:no-underline">
-                      {faq.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground leading-relaxed pb-6 text-base">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
+                  <motion.div key={index} variants={fadeInUpVariants}>
+                    <AccordionItem 
+                      value={`item-${index}`} 
+                      className="group border-2 border-border/50 rounded-2xl px-8 hover:border-primary/50 transition-all duration-300 data-[state=open]:border-primary/50 data-[state=open]:bg-primary/5 backdrop-blur-sm"
+                    >
+                      <AccordionTrigger className="text-lg font-semibold hover:text-primary py-6 hover:no-underline transition-colors duration-300">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground leading-relaxed pb-6 text-base">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </motion.div>
                 ))}
               </Accordion>
             </motion.div>
@@ -670,15 +765,23 @@ export default function App() {
         <section className="py-24 sm:py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent" />
           <div className="absolute inset-0">
-            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]" />
-            <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]" />
+            <motion.div 
+              className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]"
+              animate={{ x: [0, 50, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div 
+              className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]"
+              animate={{ x: [0, -50, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }}
+              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            />
           </div>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUpVariants}
             >
               <h2 className="text-4xl sm:text-5xl font-bold mb-8 text-white">Help Us Build Something Better</h2>
               <p className="text-xl mb-10 leading-relaxed text-white/90 max-w-3xl mx-auto">
@@ -688,7 +791,7 @@ export default function App() {
                 size="lg" 
                 variant="secondary"
                 onClick={scrollToWaitlist}
-                className="text-base px-12 py-7 shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] transition-all hover:scale-110 bg-white text-primary hover:bg-white/95 font-semibold"
+                className="text-base px-12 py-7 shadow-2xl hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] transition-all bg-white text-primary hover:bg-white/95 font-semibold"
               >
                 Join the Waiting List Today
                 <ArrowRight size={20} className="ml-2" />
