@@ -101,31 +101,46 @@ Typography should feel modern, friendly, and highly readable to accommodate visi
 
 ## Animations
 
-Animations should be purposeful and gentle, never overwhelming or distracting for neurodivergent visitors. Motion should communicate progress and guide attention without causing sensory overload. We'll use subtle, meaningful animations that enhance rather than decorate.
+Animations should be purposeful and gentle, never overwhelming or distracting for neurodivergent visitors. Motion should communicate progress and guide attention without causing sensory overload. We'll use subtle, meaningful animations with smooth, fluid physics that feel modern and 2025-appropriate.
 
-- **Purposeful Meaning**: Animations communicate state changes (form submission), guide attention to CTAs (gentle pulse), and provide feedback (success confirmation). All animations can be disabled via prefers-reduced-motion.
+**Key Animation Principles:**
+- **Fluid Motion Physics**: All animations use custom cubic-bezier easing (0.21, 0.47, 0.32, 0.98) for natural, smooth movement
+- **Spring-Based Interactions**: Magnetic buttons and hover effects use spring physics (stiffness: 150-400, damping: 15-30) for responsive feel
+- **3D Transforms**: Feature cards use perspective transforms on hover for depth and modern appeal
+- **Gradient Animations**: Text and backgrounds feature smooth gradient shifts that cycle continuously
+- **Parallax Effects**: Sections have subtle parallax scrolling for depth and engagement
+
+- **Purposeful Meaning**: Animations communicate state changes (form submission), guide attention to CTAs (magnetic pull effect), and provide feedback (success confirmation). All animations can be disabled via prefers-reduced-motion.
 - **Hierarchy of Movement**: 
-  - Primary: CTA buttons have subtle hover lift and color shift
-  - Secondary: Statistics count up on scroll into view for impact
-  - Tertiary: FAQ accordions expand smoothly
-  - Minimal: Page sections fade in gently on scroll
+  - Primary: Magnetic buttons with smooth attraction to cursor, liquid gradient backgrounds
+  - Secondary: 3D card tilts on hover, stat counters with eased count-up animations
+  - Tertiary: FAQ accordions expand smoothly, floating badge with gentle bob
+  - Minimal: Floating orbs with long-duration movements, scroll indicators with gentle pulse
 
 ## Component Selection
 
 - **Components**:
-  - **Button** - Primary CTAs ("Join Waiting List") with hover and focus states, sized generously for accessibility
+  - **MagneticButton** - Custom button component with magnetic cursor attraction effect for CTAs
+  - **FeatureCard** - 3D-transforming cards with perspective tilt on hover
+  - **StatCard** - Animated stat display with count-up numbers and gradient backgrounds
+  - **FloatingBadge** - Gently floating badge with rotation animation
+  - **SmoothAccordion** - FAQ accordion with staggered entrance animations
+  - **GradientText** - Text with animated shifting gradients
+  - **ScrollIndicator** - Smooth scroll indicator with pulsing animation
+  - **AnimatedBackground** - Flowing gradient orbs with parallax-like movement
   - **Input** - Email and name fields with clear labels, proper spacing, and validation states
-  - **Select** - Role selection dropdown (Parent, Professional, Advocate, Other) with accessible keyboard navigation
+  - **Select** - Role selection dropdown with accessible keyboard navigation
   - **Card** - Feature showcase cards with consistent padding, subtle shadows, and hover effects
-  - **Accordion** - FAQ section using shadcn Accordion component for clean expand/collapse
+  - **Badge** - Treatment type badges with gradient backgrounds
   - **Separator** - Visual breaks between major sections using subtle lines
-  - **Badge** - "Pre-Launch" or "Launching 2025" indicator near logo
-  - **Form** - react-hook-form with zod validation for robust form handling
 
 - **Customizations**:
-  - **Stat Counter Component** - Custom animated number counter for displaying statistics with impact
-  - **Gradient Backgrounds** - Subtle purple-to-blue gradients for hero and CTA sections
-  - **Icon Containers** - Circular backgrounds for feature icons using brand colors
+  - **Magnetic Interaction** - Buttons subtly follow cursor movement within proximity
+  - **3D Card Transforms** - Feature cards tilt based on mouse position with preserve-3d
+  - **Spring Physics** - All interactive elements use spring-based animations for natural feel
+  - **Gradient Shifts** - Continuous gradient animations on text and backgrounds
+  - **Staggered Entrances** - Elements animate in with slight delays for flow
+  - **Smooth Easing** - Custom cubic-bezier (0.21, 0.47, 0.32, 0.98) for all transitions
 
 - **States**:
   - Buttons: Default → Hover (lift + darken) → Active (pressed down) → Focus (ring) → Loading (spinner) → Success (checkmark)
