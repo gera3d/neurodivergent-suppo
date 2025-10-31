@@ -156,31 +156,84 @@ export default function App() {
 
       <main className="pt-16">
         <section className="relative overflow-hidden min-h-[90vh] flex items-center">
-          <AnimatedGridBackground />
-          <FloatingOrbs />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.1 }}
+          >
+            <AnimatedGridBackground />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+          >
+            <FloatingOrbs />
+          </motion.div>
           
           <motion.div 
             style={{ opacity: heroOpacity, y: heroY }}
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20"
           >
             <div className="text-center max-w-5xl mx-auto">
-              <FloatingBadge />
+              <motion.div
+                initial={{ scale: 0, opacity: 0, rotateZ: -180 }}
+                animate={{ scale: 1, opacity: 1, rotateZ: 0 }}
+                transition={{
+                  duration: 1,
+                  delay: 0.5,
+                  ease: [0.21, 0.47, 0.32, 0.98],
+                  scale: {
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 20
+                  }
+                }}
+              >
+                <FloatingBadge />
+              </motion.div>
 
               <motion.h1 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.2,
-                  ease: [0.21, 0.47, 0.32, 0.98]
-                }}
                 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-8 leading-[1.1] tracking-tight mt-6"
               >
-                Connecting Families with{' '}
-                <GradientText>
-                  Specialized Care
-                </GradientText>
-                {' '}for Neurodivergent Children
+                <motion.span
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.7,
+                    ease: [0.21, 0.47, 0.32, 0.98]
+                  }}
+                  className="inline-block"
+                >
+                  Connecting Families with{' '}
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.9,
+                    ease: [0.21, 0.47, 0.32, 0.98]
+                  }}
+                  className="inline-block"
+                >
+                  <GradientText>
+                    Specialized Care
+                  </GradientText>
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 1.1,
+                    ease: [0.21, 0.47, 0.32, 0.98]
+                  }}
+                  className="inline-block"
+                >
+                  {' '}for Neurodivergent Children
+                </motion.span>
               </motion.h1>
 
               <motion.p 
@@ -188,69 +241,131 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.8,
-                  delay: 0.4,
+                  delay: 1.3,
                   ease: [0.21, 0.47, 0.32, 0.98]
                 }}
                 className="text-xl sm:text-2xl text-muted-foreground mb-10 leading-relaxed max-w-3xl mx-auto font-light"
               >
-                Finding the right support shouldn't take months. NeuroConnect matches families of children with ASD, dyslexia, and developmental disorders to qualified professionals—including alternative treatment specialists—in minutes.
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 1.5 }}
+                >
+                  Finding the right support shouldn't take months. NeuroConnect matches families of children with ASD, dyslexia, and developmental disorders to qualified professionals—including alternative treatment specialists—in minutes.
+                </motion.span>
               </motion.p>
 
               <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{
-                  duration: 0.8,
-                  delay: 0.6,
+                  duration: 0.6,
+                  delay: 1.6,
                   ease: [0.21, 0.47, 0.32, 0.98]
                 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
-                <LiquidButton 
-                  size="lg" 
-                  onClick={scrollToWaitlist} 
-                  className="text-base px-10 py-6 shadow-2xl hover:shadow-primary/25 transition-all group relative overflow-hidden"
+                <motion.div
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 1.8,
+                    type: "spring",
+                    stiffness: 100
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <span className="relative z-10">Join the Waiting List</span>
-                  <ArrowRight size={20} className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" />
-                </LiquidButton>
-                <MagneticButton 
-                  size="lg" 
-                  variant="outline" 
-                  onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} 
-                  className="border-2 px-10 py-6 backdrop-blur-sm hover:bg-primary/5 transition-colors"
+                  <LiquidButton 
+                    size="lg" 
+                    onClick={scrollToWaitlist} 
+                    className="text-base px-10 py-6 shadow-2xl hover:shadow-primary/25 transition-all group relative overflow-hidden"
+                  >
+                    <span className="relative z-10">Join the Waiting List</span>
+                    <ArrowRight size={20} className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" />
+                  </LiquidButton>
+                </motion.div>
+                <motion.div
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 2.0,
+                    type: "spring",
+                    stiffness: 100
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  Learn More
-                </MagneticButton>
+                  <MagneticButton 
+                    size="lg" 
+                    variant="outline" 
+                    onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} 
+                    className="border-2 px-10 py-6 backdrop-blur-sm hover:bg-primary/5 transition-colors"
+                  >
+                    Learn More
+                  </MagneticButton>
+                </motion.div>
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{
                   duration: 0.8,
-                  delay: 0.8,
+                  delay: 2.2,
                   ease: [0.21, 0.47, 0.32, 0.98]
                 }}
                 className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-muted-foreground"
               >
-                <div className="flex items-center gap-2">
-                  <CheckCircle size={20} className="text-primary" weight="fill" />
-                  <span>HIPAA Compliant</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle size={20} className="text-primary" weight="fill" />
-                  <span>Vetted Professionals</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle size={20} className="text-primary" weight="fill" />
-                  <span>Alternative Treatments</span>
-                </div>
+                {[
+                  { label: "HIPAA Compliant", delay: 2.3 },
+                  { label: "Vetted Professionals", delay: 2.4 },
+                  { label: "Alternative Treatments", delay: 2.5 }
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: item.delay,
+                      type: "spring",
+                      stiffness: 200
+                    }}
+                    className="flex items-center gap-2"
+                  >
+                    <motion.div
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: item.delay + 0.1,
+                        type: "spring",
+                        stiffness: 200
+                      }}
+                    >
+                      <CheckCircle size={20} className="text-primary" weight="fill" />
+                    </motion.div>
+                    <span>{item.label}</span>
+                  </motion.div>
+                ))}
               </motion.div>
             </div>
           </motion.div>
 
-          <ScrollIndicator />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: 2.6,
+              ease: [0.21, 0.47, 0.32, 0.98]
+            }}
+          >
+            <ScrollIndicator />
+          </motion.div>
         </section>
 
         <section className="py-24 sm:py-32 relative overflow-hidden bg-gradient-to-b from-background to-muted/30">
