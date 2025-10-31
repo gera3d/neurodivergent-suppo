@@ -214,10 +214,10 @@ export default function App() {
           >
             <div className="text-center max-w-5xl mx-auto">
               <motion.div
-                initial={{ scale: 0, opacity: 0, rotateZ: -180 }}
-                animate={{ scale: 1, opacity: 1, rotateZ: 0 }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
                 transition={{
-                  duration: 1,
+                  duration: 0.6,
                   delay: 0.5,
                   ease: [0.21, 0.47, 0.32, 0.98],
                   scale: {
