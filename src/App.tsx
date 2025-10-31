@@ -253,9 +253,11 @@ export default function App() {
           <ScrollIndicator />
         </section>
 
-        <section className="py-24 sm:py-32 relative overflow-hidden">
-          <Particles className="opacity-40" quantity={50} />
-          <DotPattern className="text-primary/10" />
+        <section className="py-24 sm:py-32 relative overflow-hidden bg-gradient-to-b from-background to-muted/30">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#8b5cf615_0%,transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,#6366f115_0%,transparent_50%)]" />
+          <Particles className="opacity-30" quantity={60} />
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <ParallaxSection offset={30}>
               <motion.div 
@@ -266,68 +268,115 @@ export default function App() {
                   duration: 0.8,
                   ease: [0.21, 0.47, 0.32, 0.98]
                 }}
-                className="text-center mb-16"
+                className="text-center mb-20"
               >
-                <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">The Challenge Families Face</h2>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 border border-destructive/20 mb-6"
+                >
+                  <span className="text-destructive font-semibold text-sm">The Problem</span>
+                </motion.div>
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+                  The Challenge Families Face
+                </h2>
                 <TextReveal 
-                  text="Real data shows the urgent need for better access to specialized care that understands neurodivergent needs"
-                  className="text-xl max-w-3xl mx-auto"
+                  text="Finding specialized care for neurodivergent children is a broken experience. The data tells a stark story."
+                  className="text-xl sm:text-2xl max-w-4xl mx-auto font-light"
                 />
               </motion.div>
               
-              <BentoGrid className="max-w-6xl mx-auto">
-                <BentoCard
-                  span={1}
-                  background={
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
-                  }
-                >
-                  <StatCard
-                    icon={TrendUp}
-                    stat="1 in 36"
-                    label="Children are diagnosed with autism spectrum disorder (ASD) in the U.S., according to the CDC (2023)"
-                    gradient="from-primary to-secondary"
-                    index={0}
-                  />
-                </BentoCard>
-                <BentoCard
-                  span={1}
-                  background={
-                    <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-transparent" />
-                  }
-                >
-                  <StatCard
-                    icon={CalendarBlank}
-                    countTo={6}
-                    suffix="+ months"
-                    label="Average wait time for developmental pediatrician appointments (Autism Speaks, 2023)"
-                    gradient="from-secondary to-accent"
-                    index={1}
-                  />
-                </BentoCard>
-                <BentoCard
-                  span={1}
-                  background={
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent" />
-                  }
-                >
-                  <StatCard
-                    icon={Users}
-                    countTo={73}
-                    suffix="%"
-                    label="Of parents report difficulty finding appropriate services for their neurodivergent child (NCLD, 2022)"
-                    gradient="from-accent to-primary"
-                    index={2}
-                  />
-                </BentoCard>
-              </BentoGrid>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
+                <StatCard
+                  icon={TrendUp}
+                  stat="1 in 36"
+                  label="Children are diagnosed with autism spectrum disorder (ASD) in the U.S., according to the CDC (2023)"
+                  gradient="from-primary to-secondary"
+                  index={0}
+                />
+                <StatCard
+                  icon={CalendarBlank}
+                  countTo={6}
+                  suffix="+ months"
+                  label="Average wait time for developmental pediatrician appointments (Autism Speaks, 2023)"
+                  gradient="from-secondary to-accent"
+                  index={1}
+                />
+                <StatCard
+                  icon={Users}
+                  countTo={73}
+                  suffix="%"
+                  label="Of parents report difficulty finding appropriate services for their neurodivergent child (NCLD, 2022)"
+                  gradient="from-accent to-primary"
+                  index={2}
+                />
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.4,
+                  ease: [0.21, 0.47, 0.32, 0.98]
+                }}
+                className="max-w-4xl mx-auto"
+              >
+                <Card className="border-2 border-destructive/20 bg-gradient-to-br from-destructive/5 to-background/50 backdrop-blur-sm overflow-hidden">
+                  <CardContent className="pt-8">
+                    <div className="space-y-6">
+                      <h3 className="text-2xl font-semibold text-foreground mb-6">What Parents Are Experiencing</h3>
+                      <div className="grid sm:grid-cols-2 gap-6">
+                        {[
+                          {
+                            title: "Endless Wait Times",
+                            description: "Families wait 6-12 months just for an initial evaluation, delaying critical early intervention"
+                          },
+                          {
+                            title: "Limited Options",
+                            description: "Most platforms don't include alternative therapies like yoga, sensory integration, or holistic approaches"
+                          },
+                          {
+                            title: "Geographic Barriers",
+                            description: "Rural families have even fewer options, often traveling hours for appointments"
+                          },
+                          {
+                            title: "Fragmented Care",
+                            description: "Coordinating between multiple providers across different platforms creates unnecessary stress"
+                          }
+                        ].map((item, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1, duration: 0.5 }}
+                            className="flex gap-3"
+                          >
+                            <div className="flex-shrink-0 w-2 h-2 rounded-full bg-destructive mt-2" />
+                            <div>
+                              <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
+                              <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </ParallaxSection>
           </div>
         </section>
 
-        <section id="features" className="py-24 sm:py-32 relative overflow-hidden">
+        <section id="features" className="py-24 sm:py-32 relative overflow-hidden bg-gradient-to-b from-muted/30 to-background">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#8b5cf610_0%,transparent_65%)]" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <DotPattern className="text-primary/5" />
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <ParallaxSection offset={40}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -337,15 +386,54 @@ export default function App() {
                   duration: 0.8,
                   ease: [0.21, 0.47, 0.32, 0.98]
                 }}
-                className="text-center mb-16"
+                className="text-center mb-20"
               >
-                <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">How NeuroConnect Helps</h2>
-                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                  A comprehensive platform designed specifically for neurodivergent families
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6"
+                >
+                  <Sparkle size={16} className="text-primary" weight="fill" />
+                  <span className="text-primary font-semibold text-sm">The Solution</span>
+                </motion.div>
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+                  How NeuroConnect{' '}
+                  <GradientText>
+                    Changes Everything
+                  </GradientText>
+                </h2>
+                <p className="text-xl sm:text-2xl text-muted-foreground max-w-4xl mx-auto font-light leading-relaxed">
+                  A comprehensive platform designed from the ground up for neurodivergent families
                 </p>
               </motion.div>
 
-              <AnimatedBeam className="mb-12" />
+              <AnimatedBeam className="mb-16" />
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+                <FeatureCard
+                  icon={Handshake}
+                  title="Smart Matching"
+                  description="AI-powered algorithm connects you with specialists based on your child's unique needs, location, and preferred treatment approaches—conventional or alternative."
+                  gradient="from-primary to-secondary"
+                  index={0}
+                />
+                <FeatureCard
+                  icon={Sparkle}
+                  title="Alternative Treatments"
+                  description="Access to yoga therapists, acupuncturists, sensory integration specialists, and other holistic practitioners alongside traditional therapies."
+                  gradient="from-secondary to-accent"
+                  index={1}
+                />
+                <FeatureCard
+                  icon={ChatCircle}
+                  title="Unified Platform"
+                  description="Secure messaging, video consultations, and appointment scheduling all in one place. No more juggling multiple platforms."
+                  gradient="from-accent to-primary"
+                  index={2}
+                />
+              </div>
 
               <BentoGrid className="gap-6">
                 <BentoCard 
@@ -354,26 +442,40 @@ export default function App() {
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10" />
                   }
                 >
-                  <div className="flex flex-col h-full justify-between">
+                  <div className="flex flex-col h-full justify-between min-h-[300px]">
                     <div>
                       <motion.div 
                         className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-secondary mb-5 shadow-lg"
                         whileHover={{ scale: 1.05, rotate: 3 }}
                         transition={{ type: "spring", stiffness: 400, damping: 17 }}
                       >
-                        <Handshake size={32} className="text-white" weight="duotone" />
+                        <CalendarBlank size={32} className="text-white" weight="duotone" />
                       </motion.div>
                       <h3 className="text-3xl font-semibold mb-4 text-foreground">
-                        Smart Professional Matching
+                        From Months to Minutes
                       </h3>
-                      <p className="text-muted-foreground leading-relaxed text-lg">
-                        Our algorithm connects you with specialists based on your child's unique needs, location, and preferred treatment approaches—conventional or alternative.
+                      <p className="text-muted-foreground leading-relaxed text-lg mb-6">
+                        Instead of waiting 6+ months for appointments, find and connect with qualified professionals in your area within minutes. Our platform eliminates the gatekeepers and gives you direct access.
                       </p>
-                    </div>
-                    <div className="mt-6 flex gap-2 flex-wrap">
-                      <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">AI-Powered</Badge>
-                      <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20">Personalized</Badge>
-                      <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20">Fast</Badge>
+                      <div className="space-y-3">
+                        {[
+                          "Instant search across all provider types",
+                          "Real-time availability and booking",
+                          "Same-day virtual consultations available"
+                        ].map((feature, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1 }}
+                            className="flex items-center gap-3 text-muted-foreground"
+                          >
+                            <CheckCircle size={20} className="text-primary flex-shrink-0" weight="fill" />
+                            <span>{feature}</span>
+                          </motion.div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </BentoCard>
@@ -384,23 +486,24 @@ export default function App() {
                     <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent" />
                   }
                 >
-                  <SpotlightCard className="border-0 bg-transparent h-full">
-                    <CardContent className="pt-8">
-                      <motion.div 
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-secondary to-accent mb-5 shadow-lg"
-                        whileHover={{ scale: 1.05, rotate: 3 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                      >
-                        <Sparkle size={32} className="text-white" weight="duotone" />
-                      </motion.div>
-                      <h3 className="text-2xl font-semibold mb-4 text-foreground">
-                        Alternative Treatments
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Access to yoga therapists, acupuncturists, sensory integration specialists, and other holistic practitioners alongside traditional therapies.
-                      </p>
-                    </CardContent>
-                  </SpotlightCard>
+                  <div className="h-full min-h-[300px] flex flex-col">
+                    <motion.div 
+                      className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-primary mb-5 shadow-lg"
+                      whileHover={{ scale: 1.05, rotate: 3 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    >
+                      <ShieldCheck size={32} className="text-white" weight="duotone" />
+                    </motion.div>
+                    <h3 className="text-2xl font-semibold mb-4 text-foreground">
+                      Privacy First
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed mb-4">
+                      HIPAA-compliant platform with enterprise-grade security protecting your family's sensitive health information.
+                    </p>
+                    <div className="mt-auto">
+                      <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20">Bank-Level Encryption</Badge>
+                    </div>
+                  </div>
                 </BentoCard>
 
                 <BentoCard
@@ -409,23 +512,21 @@ export default function App() {
                     <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent" />
                   }
                 >
-                  <SpotlightCard className="border-0 bg-transparent h-full">
-                    <CardContent className="pt-8">
-                      <motion.div 
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-primary mb-5 shadow-lg"
-                        whileHover={{ scale: 1.05, rotate: 3 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                      >
-                        <ChatCircle size={32} className="text-white" weight="duotone" />
-                      </motion.div>
-                      <h3 className="text-2xl font-semibold mb-4 text-foreground">
-                        Seamless Communication
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Secure messaging, video consultations, and appointment scheduling all in one place. No more juggling multiple platforms.
-                      </p>
-                    </CardContent>
-                  </SpotlightCard>
+                  <div className="h-full min-h-[250px] flex flex-col">
+                    <motion.div 
+                      className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-secondary to-accent mb-5 shadow-lg"
+                      whileHover={{ scale: 1.05, rotate: 3 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    >
+                      <Users size={32} className="text-white" weight="duotone" />
+                    </motion.div>
+                    <h3 className="text-2xl font-semibold mb-4 text-foreground">
+                      Community Support
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Connect with other families, share experiences, and access expert-curated resources on coping strategies.
+                    </p>
+                  </div>
                 </BentoCard>
 
                 <BentoCard
@@ -434,36 +535,26 @@ export default function App() {
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5" />
                   }
                 >
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <motion.div 
-                        className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-secondary mb-4 shadow-lg"
-                        whileHover={{ scale: 1.05, rotate: 3 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                      >
-                        <ShieldCheck size={28} className="text-white" weight="duotone" />
-                      </motion.div>
-                      <h3 className="text-xl font-semibold mb-3 text-foreground">
-                        Privacy & Security
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        HIPAA-compliant platform ensuring your family's sensitive information is protected with enterprise-grade security.
-                      </p>
-                    </div>
-                    <div>
-                      <motion.div 
-                        className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-secondary to-accent mb-4 shadow-lg"
-                        whileHover={{ scale: 1.05, rotate: 3 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                      >
-                        <Users size={28} className="text-white" weight="duotone" />
-                      </motion.div>
-                      <h3 className="text-xl font-semibold mb-3 text-foreground">
-                        Community Support
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Connect with other families, share experiences, and access expert-curated resources on coping strategies.
-                      </p>
+                  <div className="min-h-[250px]">
+                    <motion.div 
+                      className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-primary via-secondary to-accent mb-5 shadow-lg"
+                      whileHover={{ scale: 1.05, rotate: 3 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    >
+                      <Target size={32} className="text-white" weight="duotone" />
+                    </motion.div>
+                    <h3 className="text-3xl font-semibold mb-4 text-foreground">
+                      Personalized for Your Child
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed text-lg mb-6">
+                      Every neurodivergent child is unique. Our matching algorithm considers diagnosis, age, specific challenges, sensory preferences, communication style, and family values to find the perfect provider match.
+                    </p>
+                    <div className="flex gap-2 flex-wrap">
+                      <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">ASD Specialists</Badge>
+                      <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20">Dyslexia Experts</Badge>
+                      <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20">ADHD Support</Badge>
+                      <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Sensory Integration</Badge>
+                      <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20">Behavioral Therapy</Badge>
                     </div>
                   </div>
                 </BentoCard>
