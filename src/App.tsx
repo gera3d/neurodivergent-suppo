@@ -427,9 +427,9 @@ export default function App() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 border border-destructive/20 mb-6"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 mb-6"
                 >
-                  <span className="text-destructive font-semibold text-sm">The Problem</span>
+                  <span className="text-accent font-semibold text-sm">The Problem</span>
                 </motion.div>
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
                   The Challenge Families Face
@@ -477,7 +477,7 @@ export default function App() {
                 }}
                 className="max-w-4xl mx-auto"
               >
-                <Card className="border-2 border-destructive/20 bg-gradient-to-br from-destructive/5 to-background/50 backdrop-blur-sm overflow-hidden">
+                <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-accent/5 to-background/50 backdrop-blur-sm overflow-hidden shadow-xl shadow-primary/5">
                   <CardContent className="pt-8">
                     <div className="space-y-6">
                       <h3 className="text-2xl font-semibold text-foreground mb-6">What Parents Are Experiencing</h3>
@@ -508,7 +508,7 @@ export default function App() {
                             transition={{ delay: i * 0.1, duration: 0.5 }}
                             className="flex gap-3"
                           >
-                            <div className="flex-shrink-0 w-2 h-2 rounded-full bg-destructive mt-2" />
+                            <div className="flex-shrink-0 w-2 h-2 rounded-full bg-accent mt-2" />
                             <div>
                               <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
                               <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
