@@ -1147,24 +1147,16 @@ export default function App() {
         <section className="py-24 sm:py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-accent" />
           <div className="absolute inset-0">
-            <motion.div 
-              className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]"
-              animate={{ x: [0, 50, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div 
-              className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]"
-              animate={{ x: [0, -50, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }}
-              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-            />
+            <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]" />
+            <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-white/20 rounded-full blur-[128px]" />
           </div>
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{
-                duration: 0.8,
+                duration: 0.5,
                 ease: [0.21, 0.47, 0.32, 0.98]
               }}
             >
