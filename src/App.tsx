@@ -405,10 +405,9 @@ export default function App() {
           </motion.div>
         </section>
 
-        <section id="problem" className="py-24 sm:py-32 relative overflow-hidden bg-gradient-to-b from-background to-muted/30">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#8b5cf615_0%,transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,#6366f115_0%,transparent_50%)]" />
-          <Particles className="opacity-30" quantity={60} />
+        <section id="problem" className="py-24 sm:py-32 relative overflow-hidden bg-gradient-to-b from-background via-muted/20 to-background">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.48_0.20_290)_0%,transparent_50%)] opacity-[0.07]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,oklch(0.55_0.22_310)_0%,transparent_50%)] opacity-[0.07]" />
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <ParallaxSection offset={30}>
@@ -420,27 +419,27 @@ export default function App() {
                   duration: 0.8,
                   ease: [0.21, 0.47, 0.32, 0.98]
                 }}
-                className="text-center mb-20"
+                className="text-center mb-16"
               >
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 mb-6"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/80 border border-border mb-6"
                 >
-                  <span className="text-accent font-semibold text-sm">The Problem</span>
+                  <span className="text-muted-foreground font-semibold text-sm">The Challenge</span>
                 </motion.div>
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
                   The Challenge Families Face
                 </h2>
                 <TextReveal 
                   text="Finding specialized care for neurodivergent children is a broken experience. The data tells a stark story."
-                  className="text-xl sm:text-2xl max-w-4xl mx-auto font-light"
+                  className="text-xl sm:text-2xl max-w-4xl mx-auto font-light text-muted-foreground"
                 />
               </motion.div>
               
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto mb-16">
                 <StatCard
                   icon={TrendUp}
                   stat="1 in 36"
@@ -475,50 +474,90 @@ export default function App() {
                   delay: 0.4,
                   ease: [0.21, 0.47, 0.32, 0.98]
                 }}
-                className="max-w-4xl mx-auto"
+                className="max-w-5xl mx-auto"
               >
-                <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-accent/5 to-background/50 backdrop-blur-sm overflow-hidden shadow-xl shadow-primary/5">
-                  <CardContent className="pt-8">
-                    <div className="space-y-6">
-                      <h3 className="text-2xl font-semibold text-foreground mb-6">What Parents Are Experiencing</h3>
-                      <div className="grid sm:grid-cols-2 gap-6">
-                        {[
-                          {
-                            title: "Endless Wait Times",
-                            description: "Families wait 6-12 months just for an initial evaluation, delaying critical early intervention"
-                          },
-                          {
-                            title: "Limited Options",
-                            description: "Most platforms don't include alternative therapies like yoga, sensory integration, or holistic approaches"
-                          },
-                          {
-                            title: "Geographic Barriers",
-                            description: "Rural families have even fewer options, often traveling hours for appointments"
-                          },
-                          {
-                            title: "Fragmented Care",
-                            description: "Coordinating between multiple providers across different platforms creates unnecessary stress"
-                          }
-                        ].map((item, i) => (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.5,
+                    ease: [0.21, 0.47, 0.32, 0.98]
+                  }}
+                >
+                  <Card className="border-2 border-accent/30 bg-gradient-to-br from-accent/[0.03] via-primary/[0.02] to-background/95 backdrop-blur-xl overflow-hidden shadow-2xl shadow-accent/10 relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5" />
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-secondary" />
+                    <CardContent className="pt-10 pb-8 relative z-10">
+                      <div className="space-y-8">
+                        <div className="text-center">
                           <motion.div
-                            key={i}
-                            initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
                             viewport={{ once: true }}
-                            transition={{ delay: i * 0.1, duration: 0.5 }}
-                            className="flex gap-3"
+                            transition={{ duration: 0.5, delay: 0.6 }}
+                            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-primary/20 mb-4 border border-accent/20"
                           >
-                            <div className="flex-shrink-0 w-2 h-2 rounded-full bg-accent mt-2" />
-                            <div>
-                              <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
-                              <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-                            </div>
+                            <Heart size={32} className="text-accent" weight="duotone" />
                           </motion.div>
-                        ))}
+                          <h3 className="text-3xl font-semibold text-foreground mb-3">What Parents Are Experiencing</h3>
+                          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
+                            These aren't just statistics—they're real families struggling to get help
+                          </p>
+                        </div>
+                        
+                        <Separator className="bg-border/50" />
+                        
+                        <div className="grid sm:grid-cols-2 gap-8">
+                          {[
+                            {
+                              title: "Endless Wait Times",
+                              description: "Families wait 6-12 months just for an initial evaluation, delaying critical early intervention",
+                              icon: CalendarBlank,
+                              color: "text-primary"
+                            },
+                            {
+                              title: "Limited Options",
+                              description: "Most platforms don't include alternative therapies like yoga, sensory integration, or holistic approaches",
+                              icon: Target,
+                              color: "text-secondary"
+                            },
+                            {
+                              title: "Geographic Barriers",
+                              description: "Rural families have even fewer options, often traveling hours for appointments",
+                              icon: TrendUp,
+                              color: "text-accent"
+                            },
+                            {
+                              title: "Fragmented Care",
+                              description: "Coordinating between multiple providers across different platforms creates unnecessary stress",
+                              icon: Brain,
+                              color: "text-primary"
+                            }
+                          ].map((item, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ opacity: 0, y: 20 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: 0.7 + i * 0.1, duration: 0.5 }}
+                              className="flex gap-4 group"
+                            >
+                              <div className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-muted/50 to-muted/30 flex items-center justify-center border border-border/50 group-hover:border-accent/30 transition-all duration-300`}>
+                                <item.icon size={24} className={item.color} weight="duotone" />
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-semibold text-foreground mb-2 text-lg">{item.title}</h4>
+                                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               </motion.div>
             </ParallaxSection>
           </div>
