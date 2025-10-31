@@ -64,14 +64,16 @@ export function FeatureCard({ icon: Icon, title, description, gradient, index }:
           className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-700`}
           style={{ transform: "translateZ(20px)" }}
         />
-        <CardContent className="pt-8 relative" style={{ transform: "translateZ(40px)" }}>
-          <motion.div 
-            className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br ${gradient} mb-5 shadow-lg`}
-            whileHover={{ scale: 1.05, rotate: 3 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <Icon size={32} className="text-white" weight="duotone" />
-          </motion.div>
+        <CardContent className="pt-8 relative text-center" style={{ transform: "translateZ(40px)" }}>
+          <div className="flex justify-center mb-5">
+            <motion.div 
+              className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br ${gradient} shadow-lg`}
+              whileHover={{ scale: 1.05, rotate: 3 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <Icon size={32} className="text-white" weight="duotone" />
+            </motion.div>
+          </div>
           <h3 className="text-2xl font-semibold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
             {title}
           </h3>
