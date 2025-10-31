@@ -129,28 +129,65 @@ export default function App() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <motion.div 
-            className="flex items-center"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-          >
-            <img src={logo} alt="NeuroConnect" className="h-10 sm:h-12 w-auto" />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
-          >
-            <LiquidButton 
-              onClick={scrollToWaitlist} 
-              className="shadow-lg hover:shadow-xl transition-all group"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <motion.div 
+              className="flex items-center"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
             >
-              Join Waiting List
-              <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </LiquidButton>
-          </motion.div>
+              <img src={logo} alt="NeuroConnect" className="h-10 sm:h-12 w-auto" />
+            </motion.div>
+
+            <motion.nav 
+              className="hidden md:flex items-center gap-8"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}
+            >
+              <button 
+                onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Features
+              </button>
+              <button 
+                onClick={() => document.getElementById('for-whom')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Who It's For
+              </button>
+              <button 
+                onClick={() => document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                FAQ
+              </button>
+            </motion.nav>
+
+            <motion.div
+              className="flex items-center gap-3"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+            >
+              <Button 
+                variant="ghost"
+                onClick={() => window.location.href = 'mailto:hello@neuroconnect.app'}
+                className="hidden sm:inline-flex text-sm font-medium"
+              >
+                Contact
+              </Button>
+              <LiquidButton 
+                onClick={scrollToWaitlist} 
+                className="shadow-lg hover:shadow-xl transition-all group"
+              >
+                Join Waiting List
+                <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </LiquidButton>
+            </motion.div>
+          </div>
         </div>
       </motion.header>
 
@@ -368,7 +405,7 @@ export default function App() {
           </motion.div>
         </section>
 
-        <section className="py-24 sm:py-32 relative overflow-hidden bg-gradient-to-b from-background to-muted/30">
+        <section id="problem" className="py-24 sm:py-32 relative overflow-hidden bg-gradient-to-b from-background to-muted/30">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#8b5cf615_0%,transparent_50%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,#6366f115_0%,transparent_50%)]" />
           <Particles className="opacity-30" quantity={60} />
@@ -678,7 +715,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="py-24 sm:py-32 relative overflow-hidden">
+        <section id="for-whom" className="py-24 sm:py-32 relative overflow-hidden">
           <div className="absolute inset-0">
             <motion.div 
               className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]"
@@ -1020,7 +1057,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="py-24 sm:py-32">
+        <section id="faq" className="py-24 sm:py-32">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
